@@ -1,0 +1,18 @@
+Environment Variable Setup (Important)
+
+To avoid hardcoding the API key:
+
+On Windows CMD:
+cmd
+
+set NLP_API_KEY=your_key_here
+
+set NLP_API_KEY=997f44b403cfdcb3d54f96394bf6fd0d855d8e4e
+python nlp.py
+
+
+On Linux/Mac:
+bash
+
+export NLP_API_KEY=your_key_here
+python3 nlp.py
