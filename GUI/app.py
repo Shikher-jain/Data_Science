@@ -1,4 +1,6 @@
+import select
 from mydb import Database
+from myapi import API
 from tkinter import *
 from tkinter import messagebox
 
@@ -7,6 +9,7 @@ class NLPApp:
     def __init__(self):
         #Database  object
         self.dbo = Database()
+        self.api = API()
 
         self.BG ="#34495E"
         self.root = Tk()
@@ -108,13 +111,14 @@ class NLPApp:
     def home_gui(self, email, name):
         self.clear()
         self.root.title("Home")
-        
-
+    
         Label(self.root, text=f"Welcome {name.title()} \n to NLP Application", bg=self.BG, fg="white", font=("Arial", 20, 'bold')).pack(pady=20)
         Label(self.root, text=f"Logged in as: {email}", bg=self.BG, font=("Arial", 12)).pack(pady=10)
+    
         Button(self.root, text="NER", height=1, width=23, font=("Arial", 20), command=self.NER).pack(pady=10)
         Button(self.root, text="Sentiment", height=1, width=23, font=("Arial", 20), command=self.Sentiment).pack(pady=10)
         Button(self.root, text="Summarization", height=1, width=23, font=("Arial", 20), command=self.Summarization).pack(pady=10)
+    
         Button(self.root, text="Logout", height=1, width=15, font=("Arial", 20), command=self.login_gui).pack(pady=40)
 
     def NER(self):
@@ -124,8 +128,29 @@ class NLPApp:
         
     def Sentiment(self):
         self.home_panel()
-        self.root.title("Sentiment Functionality")
-        Label(self.root, text="Sentiment Functionality", bg=self.BG, fg="white", font=("Arial", 20)).pack(pady=20)
+        self.root.title("Sentiment Analysis Functionality")
+        Label(self.root, text="Sentiment Analysis Functionality", bg=self.BG, fg="white", font=("Arial", 20)).pack(pady=20)
+
+        Label(self.root, text="Enter the Text ", bg=self.BG, fg="white", font=("Arial", 16)).pack(pady=20)
+        self.Sentiment_input = Entry(self.root, font=("Arial", 20), width=25)
+        self.Sentiment_input.pack(pady=10)
+
+        Button(self.root, text="Analyze Sentiment", height=1, width=23, font=("Arial", 20), command=self.do_sentiment_analyze).pack(pady=10)
+
+        self.Sentiment_result = Label(self.root, text="", bg=self.BG, fg="white", font=("Arial", 16))
+        self.Sentiment_result.pack(pady=10)
+
+    def do_sentiment_analyze(self):
+        text = self.Sentiment_input.get()
+        if not text:
+            messagebox.showerror("Error", "Text cannot be empty.")
+            return
+        else:
+            self.Sentiment_result.config(text)
+        # Placeholder for sentiment analysis logic
+        # Here you would call your sentiment analysis function
+        sentiment_result = "Positive"  # Example result, replace with actual analysis
+        messagebox.showinfo("Sentiment Result", f"The sentiment of the text is: {sentiment_result}")
 
     def Summarization(self):
         self.home_panel()
@@ -142,6 +167,5 @@ class NLPApp:
 
     def back_to_home(self):
         self.home_gui(self.email, self.dbo.get_name(self.email))
-
 
 nlp = NLPApp()
