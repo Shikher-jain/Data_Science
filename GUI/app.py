@@ -125,14 +125,34 @@ class NLPApp:
         self.home_panel()
         self.root.title("NER Functionality")
         Label(self.root, text="Named Entity Recognition", bg=self.BG, fg="white", font=("Arial", 20)).pack(pady=20)
+    
+        Label(self.root, text="Enter the Text ", bg=self.BG, fg="white", font=("Arial", 16)).pack(pady=20)
         
+        self.ner_input = Text(self.root, font=("Arial", 14), width=40, height=6, wrap=WORD)
+        self.ner_input.pack(pady=10)
+
+        Button(self.root, text="Analyze NER", height=1, width=23, font=("Arial", 20), command=self.do_ner_analyze).pack(pady=10)
+
+        self.ner_result = Label(self.root, text="", bg=self.BG, fg="white", font=("Arial", 16))
+        self.ner_result.pack(pady=10)
+
+    def do_ner_analyze(self):
+        text = self.ner_input.get("1.0", END).strip()
+        if not text:
+            messagebox.showerror("Error", "Text cannot be empty.")
+            return
+        else:
+            ner_result = self.api.ner(text)
+            messagebox.showinfo("NER Result", f"The named entities in the text are: {ner_result}")
+
     def Sentiment(self):
         self.home_panel()
         self.root.title("Sentiment Analysis Functionality")
         Label(self.root, text="Sentiment Analysis Functionality", bg=self.BG, fg="white", font=("Arial", 20)).pack(pady=20)
 
         Label(self.root, text="Enter the Text ", bg=self.BG, fg="white", font=("Arial", 16)).pack(pady=20)
-        self.Sentiment_input = Entry(self.root, font=("Arial", 20), width=25)
+
+        self.Sentiment_input = Text(self.root, font=("Arial", 14), width=40, height=6, wrap=WORD)
         self.Sentiment_input.pack(pady=10)
 
         Button(self.root, text="Analyze Sentiment", height=1, width=23, font=("Arial", 20), command=self.do_sentiment_analyze).pack(pady=10)
@@ -141,22 +161,38 @@ class NLPApp:
         self.Sentiment_result.pack(pady=10)
 
     def do_sentiment_analyze(self):
-        text = self.Sentiment_input.get()
+        text = self.Sentiment_input.get("1.0", END).strip()
         if not text:
             messagebox.showerror("Error", "Text cannot be empty.")
             return
         else:
-            self.Sentiment_result.config(text)
-        # Placeholder for sentiment analysis logic
-        # Here you would call your sentiment analysis function
-        sentiment_result = "Positive"  # Example result, replace with actual analysis
-        messagebox.showinfo("Sentiment Result", f"The sentiment of the text is: {sentiment_result}")
+            sentiment_result = self.api.sentiment_analysis(text)
+            messagebox.showinfo("Sentiment Result", f"The sentiment of the text is: {sentiment_result}")
 
     def Summarization(self):
         self.home_panel()
         self.root.title("Summarization Functionality")
         Label(self.root, text="Summarization Functionality", bg=self.BG, fg="white", font=("Arial", 20)).pack(pady=20)
 
+        Label(self.root, text="Enter the Text ", bg=self.BG, fg="white", font=("Arial", 16)).pack(pady=20)
+
+        self.Summarization_input = Text(self.root, font=("Arial", 14), width=40, height=6, wrap=WORD)
+        self.Summarization_input.pack(pady=10)
+
+        Button(self.root, text="Summarize Text", height=1, width=23, font=("Arial", 20), command=self.do_summarization).pack(pady=10)
+        
+        self.Summarization_result = Label(self.root, text="", bg=self.BG, fg="white", font=("Arial", 16))
+        self.Summarization_result.pack(pady=10)
+
+    def do_summarization(self):
+        text = self.Summarization_input.get("1.0", END).strip()
+
+        if not text:
+            messagebox.showerror("Error", "Text cannot be empty.")
+            return
+        else:
+            summary_result = self.api.summarization(text)
+            messagebox.showinfo("Summarization Result", f"The summary of the text  {summary_result}")
 
     def home_panel(self):
         self.clear()
