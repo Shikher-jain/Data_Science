@@ -112,9 +112,9 @@ class NLPApp:
         self.clear()
         self.root.title("Home")
     
+        Button(self.root, text="← Back", bg=self.BG, fg="white", font=("Arial", 14, 'bold'), command=self.login_gui).pack(anchor='nw', padx=10, pady=10)
         Label(self.root, text=f"Welcome {name.title()} \n to NLP Application", bg=self.BG, fg="white", font=("Arial", 20, 'bold')).pack(pady=20)
         Label(self.root, text=f"Logged in as: {email}", bg=self.BG, font=("Arial", 12)).pack(pady=10)
-    
         Button(self.root, text="NER", height=1, width=23, font=("Arial", 20), command=self.NER).pack(pady=10)
         Button(self.root, text="Sentiment", height=1, width=23, font=("Arial", 20), command=self.Sentiment).pack(pady=10)
         Button(self.root, text="Summarization", height=1, width=23, font=("Arial", 20), command=self.Summarization).pack(pady=10)
@@ -128,7 +128,7 @@ class NLPApp:
     
         Label(self.root, text="Enter the Text ", bg=self.BG, fg="white", font=("Arial", 16)).pack(pady=20)
         
-        self.ner_input = Text(self.root, font=("Arial", 14), width=40, height=6, wrap=WORD)
+        self.ner_input = Text(self.root, font=("Arial", 14), width=30, height=2, wrap=WORD)
         self.ner_input.pack(pady=10)
 
         Button(self.root, text="Analyze NER", height=1, width=23, font=("Arial", 20), command=self.do_ner_analyze).pack(pady=10)
@@ -139,11 +139,11 @@ class NLPApp:
     def do_ner_analyze(self):
         text = self.ner_input.get("1.0", END).strip()
         if not text:
-            messagebox.showerror("Error", "Text cannot be empty.")
+            self.ner_result.config(text="Text cannot be empty.", fg="red")
             return
         else:
             ner_result = self.api.ner(text)
-            messagebox.showinfo("NER Result", f"The named entities in the text are: {ner_result}")
+            self.ner_result.config(text=ner_result, fg="white", wraplength=400)
 
     def Sentiment(self):
         self.home_panel()
@@ -152,7 +152,7 @@ class NLPApp:
 
         Label(self.root, text="Enter the Text ", bg=self.BG, fg="white", font=("Arial", 16)).pack(pady=20)
 
-        self.Sentiment_input = Text(self.root, font=("Arial", 14), width=40, height=6, wrap=WORD)
+        self.Sentiment_input = Text(self.root, font=("Arial", 14), width=30, height=2, wrap=WORD)
         self.Sentiment_input.pack(pady=10)
 
         Button(self.root, text="Analyze Sentiment", height=1, width=23, font=("Arial", 20), command=self.do_sentiment_analyze).pack(pady=10)
@@ -163,11 +163,11 @@ class NLPApp:
     def do_sentiment_analyze(self):
         text = self.Sentiment_input.get("1.0", END).strip()
         if not text:
-            messagebox.showerror("Error", "Text cannot be empty.")
+            self.Sentiment_result.config(text="Text cannot be empty.", fg="red")
             return
         else:
             sentiment_result = self.api.sentiment_analysis(text)
-            messagebox.showinfo("Sentiment Result", f"The sentiment of the text is: {sentiment_result}")
+            self.Sentiment_result.config(text=sentiment_result, fg="white", wraplength=400)
 
     def Summarization(self):
         self.home_panel()
@@ -176,7 +176,7 @@ class NLPApp:
 
         Label(self.root, text="Enter the Text ", bg=self.BG, fg="white", font=("Arial", 16)).pack(pady=20)
 
-        self.Summarization_input = Text(self.root, font=("Arial", 14), width=40, height=6, wrap=WORD)
+        self.Summarization_input = Text(self.root, font=("Arial", 14), width=30, height=2, wrap=WORD)
         self.Summarization_input.pack(pady=10)
 
         Button(self.root, text="Summarize Text", height=1, width=23, font=("Arial", 20), command=self.do_summarization).pack(pady=10)
@@ -188,11 +188,11 @@ class NLPApp:
         text = self.Summarization_input.get("1.0", END).strip()
 
         if not text:
-            messagebox.showerror("Error", "Text cannot be empty.")
+            self.Summarization_result.config(text="Text cannot be empty.", fg="red")
             return
         else:
             summary_result = self.api.summarization(text)
-            messagebox.showinfo("Summarization Result", f"The summary of the text  {summary_result}")
+            self.Summarization_result.config(text=summary_result, fg="white",wraplength=400)
 
     def home_panel(self):
         self.clear()
