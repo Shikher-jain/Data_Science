@@ -57,3 +57,6 @@ print(a1.astype(float))  # Changes the data type of a1 to float
 print(a2.astype(np.int16))    # Changes the data type of a2 to int
 print(a3.astype(np.float64))  # Changes the data type of a3 to float64
 print(a3.astype(np.str_))  # Changes the data type of a3 to string
+
+print(a1.__dir__)
+print("Attributes:",[a for a in a1.__dir__()])  # Lists all attributes and methods of a1
