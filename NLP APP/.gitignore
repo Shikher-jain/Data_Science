@@ -1,0 +1,9 @@
+# Python cache files
+__pycache__/
+*.py[cod]
+
+# PyInstaller build folders
+build/
+dist/
+*.spec
+
