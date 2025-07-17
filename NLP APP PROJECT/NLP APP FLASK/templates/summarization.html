@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NER</title>  
-</head>
+    <title>Perform Summarization</title>  
+</head> 
 <body>
     <h1>NLP APP</h1>
- 
-    <form action="/perform_ner" method ="POST">
+
+    <form action="/perform_summarization" method ="POST">
         <label>Enter Text Here:</label><br>
         <textarea name="input_text"></textarea><br>
-        <input type="submit" value="Perform NER"><br><br>
+        <input type="submit" value="Perform Summarization"><br><br>
     </form>
     {%if response%}
         <p>{{response}}</p>

@@ -1,9 +1,11 @@
 from flask import Flask, render_template,request,redirect
 from db import Database
+from api import API
 
 app = Flask(__name__)
 
 dbo = Database()
+apio = API()
 
 @app.route('/')
 def index():
@@ -48,7 +50,17 @@ def ner():
 @app.route('/perform_ner',methods=['POST'])
 def perform_ner():
     text=request.form.get('input_text')
-    return render_template('ner.html')
+    response = apio.ner(text)
+    print(response)
+    
+    return render_template('ner.html', response=response)
+
+
+
+
+
+
+
 
 
 
@@ -56,9 +68,11 @@ def perform_ner():
 def sentiment():
     return render_template('sentiment.html')
 
-@app.route('/perform_sentiment',methods=['POST'])
+@app.route('/perform_sentiment', methods=['POST'])
 def perform_sentiment():
-    text=request.form.get('input_text')
+    text = request.form.get('input_text')
+    response = apio.sentiment_analysis(text)
+    return render_template('sentiment.html', response=response)
     
 
 @app.route('/abuse_detection')
@@ -67,7 +81,20 @@ def abuse_detection():
 
 @app.route('/perform_abuse_detection',methods=['POST'])
 def perform_abuse_detection():
-    text=request.form.get('input_text')
+    text = request.form.get('input_text')
+    response = apio.abuse_detection(text)
+    return render_template('abuse_detection.html', response=response)
+
+@app.route('/summarization')
+def summarization():
+    return render_template('summarization.html')
+
+@app.route('/perform_summarization',methods=['POST'])
+def perform_summarization():
+    text = request.form.get('input_text')
+    response = apio.summarization(text)
+    return render_template('summarization.html', response=response)
     
 
-app.run(debug=True)
+if __name__ == '__main__':
+    app.run(debug=True)
