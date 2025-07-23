@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>IPL Web Apllication</title>
+    </head>
+
+    <body>
+        <h1>team VS team</h1>
+        <form method="get" action="/teamvteam">
+            <label>Select team 1:</label>
+            <select name="team1">
+                {% for team in teams %}
+                <option>{{team}}</option>
+                {%endfor%}
+            </select>
+            <br><br>
+            
+            <label>Select team 2:</label>
+            <select name="team2">
+                {% for team in teams %}
+                <option>{{team}}</option>
+                {%endfor%}
+            </select>
+            <br><br>
+
+            <button type="submit">Submit</button>
+        </form>
+
+        {%if result%}
+            {%for i in result%}
+                <p>{{ i }} : {{ result[i] }}</p>
+
+            {% endfor %}
+        {% endif %}
+
+
+    </body>
+</html>
