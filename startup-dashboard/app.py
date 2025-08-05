@@ -7,11 +7,62 @@ st.set_page_config(layout = 'wide',page_title = "Startup Analysis")
 df = pd.read_csv("startup_cleaned.csv")
 df['date'] = pd.to_datetime(df['date'], errors='coerce')
 df['year'] = df['date'].dt.year
+df['month'] = df['date'].dt.month
+
+def load_overall_analysis():
+
+    # Total funding (in INR Crores) across all funding rounds.
+    total = round(df['amount'].sum())
+
+    # Average total funding per startup.
+    avg = df.groupby('startup')['amount'].sum().mean()
+    
+    # Highest single funding round received by any startup.
+    max = df.groupby('startup')['amount'].max().sort_values(ascending = False).head(1).values[0]
+    
+    # Total highest funding received by a single startup (all rounds combined).
+    max1 = df.groupby('startup')['amount'].sum().max()
+    
+    total_startup = df['startup'].nunique()
+
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.metric('Total',str(total)+' Cr')
+
+    with col2:
+        st.metric('Total Startups',total_startup)
+
+    with col3:
+        st.metric('Average',str(round(avg))+' Cr')
+
+
+    col4, col5 = st.columns(2)
+    with col4:
+        st.metric('Highest single funding',str(max)+' Cr')
+
+    with col5:
+        st.metric('Total highest funding',str(max1)+' Cr')
+        
+    
+
+    st.header("Month on Month Graph")
+    
+    selected_option = st.selectbox('Select Type' ,['Total','Count'])
+    if selected_option == 'Total':
+        t_df = df.groupby(['year','month'])['amount'].sum().reset_index()
+    else:
+        t_df = df.groupby(['year','month'])['amount'].count().reset_index()
+    
+    t_df['x-axis'] = t_df['month'].astype('str') + '-' +t_df['year'].astype('str')
+
+    fig_m, ax_m = plt.subplots()
+    ax_m.plot(t_df['x-axis'],t_df['amount'])
+    st.pyplot(fig_m)
+
 
 
 def load_investment_details(investor):
 
-    
     st.header(investor)
 
     last_5df = df[df["investor"].str.contains(investor)][['date','startup','vertical','city','round','amount']].head(5)
@@ -72,6 +123,12 @@ option = st.sidebar.selectbox("Select one", ['Overall Analysis', 'StartUp', 'Inv
 
 if option == "Overall Analysis":
     st.title("Overall Analysis")
+    # btn0 = st.sidebar.button('Show Overall Analysis')
+    # if btn0:
+    #     with st.spinner("Loading Overall Analysis details..."):
+    #         load_overall_analysis()
+    load_overall_analysis()
+
 
 elif option == "StartUp":
     st.sidebar.selectbox("Select StartUp",df['startup'].unique())
