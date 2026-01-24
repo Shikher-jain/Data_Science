@@ -2,7 +2,6 @@ import streamlit as st
 from db_helper import DB
 import plotly.express as px
 
-
 db = DB()
 
 st.sidebar.title("Flights Analytcis")
