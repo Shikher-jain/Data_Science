@@ -1,0 +1,7 @@
+item_id,order_id,product,price
+1,101,Laptop,70000
+2,101,Mouse,1500
+3,102,Keyboard,3000
+4,103,Monitor,12000
+5,104,Headphones,2500
+6,106,Camera,45000

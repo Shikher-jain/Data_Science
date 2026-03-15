@@ -1,0 +1,5 @@
+payment_id,order_id,amount,payment_mode
+201,101,71500,Card
+202,102,3000,UPI
+203,103,12000,Cash
+204,105,5000,Card
